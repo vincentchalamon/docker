@@ -16,7 +16,7 @@ Then, run following command to run container:
 docker run -d -P vincentchalamon/symfony
 ```
 
-Your project is available at [http://127.0.0.1]() (for Boot2docker, follow [http://192.168.59.103]()).
+Your project is available at [http://127.0.0.1](http://127.0.0.1) (for Boot2docker, follow [http://192.168.59.103](http://192.168.59.103)).
 
 ## Configuration
 
