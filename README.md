@@ -36,7 +36,7 @@ mysql:
     image: mysql
     net: "host"
     environment:
-        MYSQL_DATABASE: erb_api
+        MYSQL_DATABASE: symfony
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: yes
 ```
