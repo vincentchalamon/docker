@@ -57,7 +57,6 @@ web:
         - 8888:80
     volumes:
         - .:/var/www
-    net: "host"
     tty: true
 
 db:
