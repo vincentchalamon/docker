@@ -68,10 +68,3 @@ db:
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: yes
 ```
-
-## TODO
-
-- [x] Rename tag 1.0 -> wheezy-php54
-- [x] Migrate to Jessie
-- [x] Migrate to PHP 5.6
-- [x] Add jessie-php56 tag
