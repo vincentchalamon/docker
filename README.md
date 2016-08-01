@@ -2,25 +2,29 @@
 
 A Dockerfile for [Symfony](http://symfony.com/) Web container: Nginx, PHP-FPM…
 
-**This configuration is built for development. You can use it in production at your own risks !**
+This image is ready for MySQL, SQLite & PostgreSQL. Feel free to connect with your required database system.
 
-[Don't know Docker yet ?](http://blog.vincent-chalamon.fr/docker/)
+**This configuration is built for development. You can use it in production at your own risks !**
 
 ## Installation
 
-Install [Docker](https://www.docker.com/) ([Boot2docker](http://boot2docker.io/) or [Kitematic](https://kitematic.com/) for OS X & Windows).
-
-Then, run following command to run container:
+Run following command to build & run container:
 
 ```
-docker run -d -P vincentchalamon/symfony
+docker run -d -p 80:80 vincentchalamon/symfony
 ```
 
-Your project is available at [http://127.0.0.1](http://127.0.0.1) (for Boot2docker, follow [http://192.168.59.103](http://192.168.59.103)).
+To install a specific tag, for example `wheezy-php55`, run:
+
+```
+docker run -d -p 80:80 vincentchalamon/symfony:wheezy-php55
+```
+
+Your project is available at [http://127.0.0.1](http://127.0.0.1).
 
 ## Configuration
 
-Want to integrate it with MySql ? I recommand to use [Docker Compose](https://docs.docker.com/compose/).
+Want to integrate it with MySql? Let's use [Docker Compose](https://docs.docker.com/compose/).
 
 Create `docker-compose.yml` file as following:
 
@@ -29,42 +33,13 @@ web:
     image: vincentchalamon/symfony
     volumes:
         - .:/var/www
-    net: "host"
-    tty: true
 
 mysql:
     image: mysql
-    net: "host"
     environment:
-        MYSQL_DATABASE: symfony
-        MYSQL_USER: root
-        MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        MYSQL_DATABASE: "symfony"
+        MYSQL_USER: "root"
+        MYSQL_ROOT_PASSWORD: "root"
 ```
 
-Then run `docker-compose up -d`, your Symfony project is ready to access MySql through `127.0.0.1:3306`.
-
-## Customize ports
-
-By default, _web_ container run on port 80, _mysql_ container on port 3306. But in some case (for example to prevent ports conflicts on Linux),
-you may need to use customize ports.
-
-Let's imagine we'll run Nginx on port 8888, and MySql on port 3386. Update your `docker-compose.yml` file as following:
-
-```yml
-web:
-    image: vincentchalamon/docker-symfony
-    ports:
-        - 8888:80
-    volumes:
-        - .:/var/www
-    tty: true
-
-db:
-    image: mysql
-    command: mysqld --port 3386
-    net: "host"
-    environment:
-        MYSQL_DATABASE: erb_api
-        MYSQL_USER: root
-        MYSQL_ALLOW_EMPTY_PASSWORD: yes
-```
+Then run `docker-compose up -d`, your Symfony project is ready to access MySQL through `127.0.0.1:3306`.
