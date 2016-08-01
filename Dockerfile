@@ -2,8 +2,6 @@ FROM debian:jessie
 
 MAINTAINER Vincent Chalamon <vincentchalamon@gmail.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates \
