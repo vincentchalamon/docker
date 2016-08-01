@@ -30,8 +30,8 @@ RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf \
     && echo "opcache.enable_cli=1" >> /etc/php5/mods-available/opcache.ini \
     && echo "\ndaemon off;" >> /etc/nginx/nginx.conf
 
-ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
-ADD vhost.conf /etc/nginx/sites-available/default
+COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY vhost.conf /etc/nginx/sites-available/default
 
 RUN usermod -u 1000 www-data
 
