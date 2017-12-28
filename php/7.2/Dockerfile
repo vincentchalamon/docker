@@ -16,14 +16,20 @@ RUN set -xe \
         git \
         icu-libs \
         zlib \
-        make \
+        git \
+        postgresql-client \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
         zlib-dev \
+        postgresql-dev \
+        sqlite-dev \
     && docker-php-ext-install \
         intl \
+        pgsql \
+        pdo_pgsql \
         pdo_mysql \
+        pdo_sqlite \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \

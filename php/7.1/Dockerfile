@@ -9,21 +9,27 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY php.ini /usr/local/etc/php/php.ini
 COPY docker-entrypoint.sh /usr/local/bin/docker-app-entrypoint
 
-WORKDIR /srv/api-platform
+WORKDIR /app
 
 RUN set -xe \
     && apk add --no-cache --virtual .persistent-deps \
         git \
         icu-libs \
         zlib \
-        make \
+        git \
+        postgresql-client \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
         zlib-dev \
+        postgresql-dev \
+        sqlite-dev \
     && docker-php-ext-install \
         intl \
+        pgsql \
+        pdo_pgsql \
         pdo_mysql \
+        pdo_sqlite \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
