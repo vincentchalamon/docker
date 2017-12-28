@@ -7,6 +7,9 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY php.ini /usr/local/etc/php/php.ini
+COPY docker-entrypoint.sh /usr/local/bin/docker-app-entrypoint
+
+WORKDIR /srv/api-platform
 
 RUN set -xe \
     && apk add --no-cache --virtual .persistent-deps \
@@ -28,8 +31,10 @@ RUN set -xe \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
-    && composer clear-cache
+    && composer clear-cache \
+    && mkdir -p var/cache var/log \
+    && chmod -R 777 var \
+    && chmod +x /usr/local/bin/docker-app-entrypoint
 
-WORKDIR /var/www
-
+ENTRYPOINT ["/usr/local/bin/docker-app-entrypoint"]
 CMD ["php-fpm"]

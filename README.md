@@ -1,46 +1,47 @@
-A Dockerfile implementing php:7.1-fpm-alpine with dependencies for PHP projects.
+This repository provides Docker images.
 
-**This configuration is built for development. It is not recommended to use it in production.**
-
-## Installation
-
-Run following command to build & run container:
-
-```bash
-docker run -d -p 9000:9000 vincentchalamon/php:7.1-dev
-```
-
-## Configuration
-
-Want to integrate it with MySql? Let's use [Docker Compose](https://docs.docker.com/compose/).
-
-Create `docker-compose.yml` file as following:
+Here is an example of a `docker-compose.yml`:
 
 ```yml
 version: '3'
 
 services:
   app:
-    image: vincentchalamon/php:7.1-dev
+    image: vincentchalamon/php:7.2
     depends_on:
       - db
+    env_file:
+      - .env
     volumes:
-      - ./:/var/www:rw
+      - $HOME/.composer/cache:/root/.composer/cache
+      - ./:/app:rw
+      - /app/var/cache
+      - /app/var/log
 
   db:
-    image: mysql:5.7
+    image: healthcheck/mysql
     environment:
-      MYSQL_DATABASE: foo
-      MYSQL_ROOT_PASSWORD: bar
+      - MYSQL_DATABASE=database
+      - MYSQL_ROOT_PASSWORD=password
     volumes:
       - db-data:/var/lib/mysql:rw
     ports:
       - 3306:3306
 
   nginx:
-    image: nginx:alpine
+    image: nginx:1.11-alpine
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./public:/app/public:ro
     ports:
       - 80:80
+
+  varnish:
+    image: interdrinks/varnish:4-alpine
+    depends_on:
+      - app
+    ports:
+      - 8000:80
 
 volumes:
   db-data: {}
