@@ -16,7 +16,6 @@ RUN set -xe \
         git \
         icu-libs \
         zlib \
-        git \
         postgresql-client \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
@@ -33,8 +32,9 @@ RUN set -xe \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
-    && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
+    && docker-php-ext-enable \
+        apcu \
+        opcache \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \
