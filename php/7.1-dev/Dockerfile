@@ -7,7 +7,14 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY php.ini /usr/local/etc/php/php.ini
-COPY docker-entrypoint.sh /usr/local/bin/docker-app-entrypoint
+COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
+
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD \
+    SCRIPT_NAME=/ping \
+    SCRIPT_FILENAME=/ping \
+    REQUEST_METHOD=GET \
+    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
 
 WORKDIR /app
 
@@ -39,8 +46,6 @@ RUN set -xe \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \
     && mkdir -p var/cache var/log \
-    && chmod -R 777 var \
-    && chmod +x /usr/local/bin/docker-app-entrypoint
+    && chmod -R 777 var
 
-ENTRYPOINT ["/usr/local/bin/docker-app-entrypoint"]
 CMD ["php-fpm"]

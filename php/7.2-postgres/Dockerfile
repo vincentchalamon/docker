@@ -3,6 +3,14 @@ FROM php:7.2-fpm-alpine
 ENV APCU_VERSION 5.1.8
 
 COPY php.ini /usr/local/etc/php/php.ini
+COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
+
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD \
+    SCRIPT_NAME=/ping \
+    SCRIPT_FILENAME=/ping \
+    REQUEST_METHOD=GET \
+    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
 
 WORKDIR /app
 
