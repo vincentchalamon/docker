@@ -8,13 +8,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
-
-HEALTHCHECK --interval=10s --timeout=3s \
-    CMD \
-    SCRIPT_NAME=/ping \
-    SCRIPT_FILENAME=/ping \
-    REQUEST_METHOD=GET \
-    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
+COPY healthcheck /usr/local/bin/healthcheck
 
 WORKDIR /app
 
@@ -46,6 +40,9 @@ RUN set -xe \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \
     && mkdir -p var/cache var/log \
+    && chmod +x /usr/local/bin/healthcheck \
     && chmod -R 777 var
+
+HEALTHCHECK CMD /usr/local/bin/healthcheck
 
 CMD ["php-fpm"]
