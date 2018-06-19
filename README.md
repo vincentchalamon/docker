@@ -1,4 +1,4 @@
-This repository provides Docker images.
+This repository provides Docker images for PHP projects.
 
 Here is an example of a `docker-compose.yml`:
 
@@ -7,26 +7,9 @@ version: '3'
 
 services:
   app:
-    image: vincentchalamon/php:7.2
-    depends_on:
-      - db
-    env_file:
-      - .env
+    image: vincentchalamon/php:7.2-dev
     volumes:
-      - $HOME/.composer/cache:/root/.composer/cache
       - ./:/app:rw
-      - /app/var/cache
-      - /app/var/log
-
-  db:
-    image: healthcheck/mysql
-    environment:
-      - MYSQL_DATABASE=database
-      - MYSQL_ROOT_PASSWORD=password
-    volumes:
-      - db-data:/var/lib/mysql:rw
-    ports:
-      - 3306:3306
 
   nginx:
     image: nginx:1.11-alpine
@@ -37,12 +20,9 @@ services:
       - 80:80
 
   varnish:
-    image: interdrinks/varnish:4-alpine
+    image: vincentchalamon/varnish:4.1
     depends_on:
       - app
     ports:
       - 8000:80
-
-volumes:
-  db-data: {}
 ```
