@@ -10,6 +10,7 @@ WORKDIR /app
 
 RUN set -xe \
     && apk add --no-cache --virtual .persistent-deps \
+        fcgi \
         icu-libs \
         zlib \
     && apk add --no-cache --virtual .build-deps \

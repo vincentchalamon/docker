@@ -14,6 +14,7 @@ WORKDIR /app
 
 RUN set -xe \
     && apk add --no-cache --virtual .persistent-deps \
+        fcgi \
         git \
         icu-libs \
         zlib \
