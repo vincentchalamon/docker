@@ -1,7 +1,7 @@
 FROM composer:latest as composer
-FROM php:7.0-fpm-alpine
+FROM php:5.6-fpm-alpine
 
-ENV APCU_VERSION 5.1.8
+ENV APCU_VERSION 4.0.11
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER 1
 

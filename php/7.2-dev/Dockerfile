@@ -40,9 +40,7 @@ RUN set -xe \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \
-    && mkdir -p var/cache var/log \
-    && chmod +x /usr/local/bin/healthcheck \
-    && chmod -R 777 var
+    && chmod +x /usr/local/bin/healthcheck
 
 HEALTHCHECK CMD /usr/local/bin/healthcheck
 

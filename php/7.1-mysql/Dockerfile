@@ -27,9 +27,7 @@ RUN set -xe \
         apcu \
         opcache \
     && apk del .build-deps \
-    && mkdir -p var/cache var/log \
-    && chmod +x /usr/local/bin/healthcheck \
-    && chmod -R 777 var
+    && chmod +x /usr/local/bin/healthcheck
 
 HEALTHCHECK CMD /usr/local/bin/healthcheck
 
