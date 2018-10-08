@@ -40,7 +40,10 @@ RUN set -xe \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \
-    && chmod +x /usr/local/bin/healthcheck
+    && chmod +x /usr/local/bin/healthcheck \
+    && wget https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-linux-amd64-v0.3.0.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.3.0.tar.gz \
+    && rm dockerize-linux-amd64-v0.3.0.tar.gz
 
 HEALTHCHECK CMD /usr/local/bin/healthcheck
 
