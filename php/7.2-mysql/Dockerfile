@@ -1,6 +1,6 @@
 FROM php:7.2-fpm-alpine
 
-ENV APCU_VERSION 5.1.8
+ARG APCU_VERSION=5.1.8
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf

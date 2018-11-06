@@ -1,5 +1,6 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.1-fpm-alpine
 
+ARG MONGODB_VERSION=1.5.3
 ARG APCU_VERSION=5.1.8
 
 COPY php.ini /usr/local/etc/php/php.ini
@@ -13,22 +14,20 @@ RUN set -xe \
         fcgi \
         icu-libs \
         zlib \
-        postgresql-client \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
         zlib-dev \
-        postgresql-dev \
     && docker-php-ext-install \
         intl \
-        pgsql \
-        pdo_pgsql \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
+        mongodb-${MONGODB_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
+        mongodb \
     && apk del .build-deps \
     && chmod +x /usr/local/bin/healthcheck
 

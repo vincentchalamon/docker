@@ -1,7 +1,9 @@
 FROM composer:latest as composer
 FROM php:5.6-fpm-alpine
 
-ENV APCU_VERSION 4.0.11
+ARG MONGODB_VERSION=1.5.3
+ARG APCU_VERSION=4.0.11
+
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
@@ -34,9 +36,11 @@ RUN set -xe \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
+        mongodb-${MONGODB_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
+        mongodb \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \

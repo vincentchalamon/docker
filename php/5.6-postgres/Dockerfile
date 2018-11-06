@@ -1,6 +1,6 @@
 FROM php:5.6-fpm-alpine
 
-ENV APCU_VERSION 4.0.11
+ARG APCU_VERSION=4.0.11
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
