@@ -1,6 +1,7 @@
 FROM php:7.2-fpm-alpine
 
 ARG APCU_VERSION=5.1.8
+ARG REDIS_VERSION=4.2.0
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
@@ -26,9 +27,11 @@ RUN set -xe \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
+        redis-${REDIS_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
+        redis \
     && apk del .build-deps \
     && chmod +x /usr/local/bin/healthcheck
 

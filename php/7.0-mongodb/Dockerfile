@@ -2,6 +2,7 @@ FROM php:7.0-fpm-alpine
 
 ARG MONGODB_VERSION=1.5.3
 ARG APCU_VERSION=5.1.8
+ARG REDIS_VERSION=4.2.0
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/php-fpm.conf
@@ -24,10 +25,12 @@ RUN set -xe \
     && pecl install \
         apcu-${APCU_VERSION} \
         mongodb-${MONGODB_VERSION} \
+        redis-${REDIS_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
         mongodb \
+        redis \
     && apk del .build-deps \
     && chmod +x /usr/local/bin/healthcheck
 

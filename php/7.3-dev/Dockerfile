@@ -1,8 +1,8 @@
 FROM composer:latest as composer
-FROM php:5.6-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 ARG MONGODB_VERSION=1.5.3
-ARG APCU_VERSION=4.0.11
+ARG APCU_VERSION=5.1.8
 ARG REDIS_VERSION=4.2.0
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
@@ -37,8 +37,8 @@ RUN set -xe \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
-        mongodb-${MONGODB_VERSION} \
-        redis-${REDIS_VERSION} \
+		mongodb-${MONGODB_VERSION} \
+		redis-${REDIS_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \

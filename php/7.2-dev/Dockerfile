@@ -3,6 +3,7 @@ FROM php:7.2-fpm-alpine
 
 ARG MONGODB_VERSION=1.5.3
 ARG APCU_VERSION=5.1.8
+ARG REDIS_VERSION=4.2.0
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -37,10 +38,12 @@ RUN set -xe \
     && pecl install \
         apcu-${APCU_VERSION} \
 		mongodb-${MONGODB_VERSION} \
+		redis-${REDIS_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
         mongodb \
+        redis \
     && apk del .build-deps \
     && composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
     && composer clear-cache \

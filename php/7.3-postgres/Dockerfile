@@ -1,6 +1,5 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.3-fpm-alpine
 
-ARG MONGODB_VERSION=1.5.3
 ARG APCU_VERSION=5.1.8
 ARG REDIS_VERSION=4.2.0
 
@@ -15,21 +14,23 @@ RUN set -xe \
         fcgi \
         icu-libs \
         zlib \
+        postgresql-client \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
         zlib-dev \
+        postgresql-dev \
     && docker-php-ext-install \
         intl \
+        pgsql \
+        pdo_pgsql \
         zip \
     && pecl install \
         apcu-${APCU_VERSION} \
-        mongodb-${MONGODB_VERSION} \
         redis-${REDIS_VERSION} \
     && docker-php-ext-enable \
         apcu \
         opcache \
-        mongodb \
         redis \
     && apk del .build-deps \
     && chmod +x /usr/local/bin/healthcheck

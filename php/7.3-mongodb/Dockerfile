@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 ARG MONGODB_VERSION=1.5.3
 ARG APCU_VERSION=5.1.8
