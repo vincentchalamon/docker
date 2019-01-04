@@ -1,4 +1,5 @@
-FROM mhart/alpine-node:11.2.0
+ARG NODE_VERSION="${NODE_VERSION:-11.6.0}"
+FROM mhart/alpine-node:${NODE_VERSION}
 
 RUN apk add --no-cache ca-certificates; \
-    yarn global add swagger-cli
+    npm i -g swagger-cli

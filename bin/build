@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -e
+
+docker build -t vincentchalamon/php:7.0 --build-arg PHP_VERSION=7.0 php
+docker build -t vincentchalamon/php:7.1 --build-arg PHP_VERSION=7.1 php
+docker build -t vincentchalamon/php:7.2 --build-arg PHP_VERSION=7.2 php
+docker build -t vincentchalamon/php:7.3 -t vincentchalamon/php:7 -t vincentchalamon/php:latest --build-arg PHP_VERSION=7.3 php
+
+docker build -t vincentchalamon/node:6.16 -t vincentchalamon/node:6 --build-arg NODE_VERSION=6.16 node
+docker build -t vincentchalamon/node:8.15 -t vincentchalamon/node:8 --build-arg NODE_VERSION=8.15 node
+docker build -t vincentchalamon/node:10.15 -t vincentchalamon/node:10 --build-arg NODE_VERSION=10.15 node
+docker build -t vincentchalamon/node:11.6 -t vincentchalamon/node:11 -t vincentchalamon/node:latest --build-arg NODE_VERSION=11.6 node
+
+docker push vincentchalamon/php:7.0
+docker push vincentchalamon/php:7.1
+docker push vincentchalamon/php:7.2
+docker push vincentchalamon/php:7.3
+docker push vincentchalamon/php:7
+docker push vincentchalamon/php:latest
+
+docker push vincentchalamon/node:6.16
+docker push vincentchalamon/node:6
+docker push vincentchalamon/node:8.15
+docker push vincentchalamon/node:8
+docker push vincentchalamon/node:10.15
+docker push vincentchalamon/node:10
+docker push vincentchalamon/node:11.6
+docker push vincentchalamon/node:11
+docker push vincentchalamon/node:latest
